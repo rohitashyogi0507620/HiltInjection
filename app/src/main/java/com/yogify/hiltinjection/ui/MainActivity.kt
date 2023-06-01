@@ -2,6 +2,7 @@ package com.yogify.hiltinjection.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
                 is NetworkResult.Success -> {
                     binding.textView.setText(it.data.toString())
+                    Log.d("DATA",it.data.toString())
                     binding.progressBar.isVisible = false
                 }
             }
