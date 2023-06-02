@@ -12,9 +12,15 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.lifecycleScope
 import com.yogify.hiltinjection.NetworkResult
 import com.yogify.hiltinjection.databinding.ActivityMainBinding
+import com.yogify.hiltinjection.utils.PreferencesKeys.AGE
+import com.yogify.hiltinjection.utils.PreferencesKeys.APPLICATION_PREFERENCES
+import com.yogify.hiltinjection.utils.PreferencesKeys.NAME
+
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,9 +32,9 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
 
-    val USER_AGE_KEY = intPreferencesKey("USER_AGE")
-    val USER_NAME_KEY = stringPreferencesKey("USER_NAME")
-    val dataStore: DataStore<Preferences> by preferencesDataStore("user_prefs")
+
+
+    private val dataStore by preferencesDataStore(name = APPLICATION_PREFERENCES)
 
     var  count  =0
 
@@ -61,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnStoredata.setOnClickListener {
             count++
-            GlobalScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 storeUserInfo(10, "Rohitash Yogi ${count}")
                 Log.d("DATA", "Data Stored")
             }
@@ -72,20 +78,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         userAgeFlow= dataStore.data.map { preferences ->
-            preferences[USER_AGE_KEY] ?: 0
+            preferences[AGE] ?: 0
         }
 
         userNameFlow = dataStore.data.map { preferences ->
-            preferences[USER_NAME_KEY] ?: ""
+            preferences[NAME] ?: ""
         }
 
-        GlobalScope.launch {
-
+        lifecycleScope.launch(Dispatchers.IO){
             userNameFlow.collect {
                 binding.textView.setText(it)
 
             }
-
         }
 
 
@@ -93,8 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     suspend fun storeUserInfo(age: Int, name: String) {
         dataStore.edit { preferences ->
-            preferences[USER_AGE_KEY] = age
-            preferences[USER_NAME_KEY] = name
+            preferences[AGE] = age
+            preferences[NAME] = name
         }
     }
 }
