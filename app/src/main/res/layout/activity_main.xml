@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+    <LinearLayout     android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <TextView
+        android:layout_margin="10dp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_margin="10dp"
+        android:text="Store Data Into Data Store"
+        android:id="@+id/btn_storedata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_margin="10dp"
+        android:text="Fetch Data Into Data Store"
+        android:id="@+id/btn_fetcdata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -23,5 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
